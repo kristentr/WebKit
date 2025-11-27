@@ -63,17 +63,6 @@ public:
 
     static void serializeTransformationMatrix(ExtractorState&, StringBuilder&, const CSS::SerializationContext&, const TransformationMatrix&);
     static void serializeTransformationMatrix(const RenderStyle&, StringBuilder&, const CSS::SerializationContext&, const TransformationMatrix&);
-
-    // MARK: Shared serializations
-
-    static void serializePositionTryFallbacks(ExtractorState&, StringBuilder&, const CSS::SerializationContext&, const FixedVector<PositionTryFallback>&);
-
-    // MARK: MaskLayer property serializations
-
-    static void serializeSingleMaskComposite(ExtractorState&, StringBuilder&, const CSS::SerializationContext&, CompositeOperator);
-    static void serializeSingleWebkitMaskComposite(ExtractorState&, StringBuilder&, const CSS::SerializationContext&, CompositeOperator);
-    static void serializeSingleMaskMode(ExtractorState&, StringBuilder&, const CSS::SerializationContext&, MaskMode);
-    static void serializeSingleWebkitMaskSourceType(ExtractorState&, StringBuilder&, const CSS::SerializationContext&, MaskMode);
 };
 
 // MARK: - Strong value serializations
@@ -166,80 +155,6 @@ inline void ExtractorSerializer::serializeTransformationMatrix(const RenderStyle
     builder.append(nameLiteral(CSSValueMatrix3d), '(', interleave(values, [&](auto& builder, auto& value) {
         CSS::serializationForCSS(builder, context, CSS::NumberRaw<> { value });
     }, ", "_s), ')');
-}
-
-// MARK: - Shared serializations
-
-inline void ExtractorSerializer::serializePositionTryFallbacks(ExtractorState& state, StringBuilder& builder, const CSS::SerializationContext& context, const FixedVector<PositionTryFallback>& fallbacks)
-{
-    if (fallbacks.isEmpty()) {
-        serializationForCSS(builder, context, state.style, CSS::Keyword::None { });
-        return;
-    }
-
-    CSSValueListBuilder list;
-    for (auto& fallback : fallbacks) {
-        if (RefPtr positionAreaProperties = fallback.positionAreaProperties) {
-            auto areaValue = positionAreaProperties->getPropertyCSSValue(CSSPropertyPositionArea);
-            if (areaValue)
-                list.append(*areaValue);
-            continue;
-        }
-
-        CSSValueListBuilder singleFallbackList;
-        if (fallback.positionTryRuleName)
-            singleFallbackList.append(ExtractorConverter::convert(state, *fallback.positionTryRuleName));
-        for (auto& tactic : fallback.tactics)
-            singleFallbackList.append(ExtractorConverter::convert(state, tactic));
-        list.append(CSSValueList::createSpaceSeparated(singleFallbackList));
-    }
-
-    builder.append(CSSValueList::createCommaSeparated(WTFMove(list))->cssText(context));
-}
-
-// MARK: - MaskLayer property serializations
-
-inline void ExtractorSerializer::serializeSingleMaskComposite(ExtractorState&, StringBuilder& builder, const CSS::SerializationContext&, CompositeOperator composite)
-{
-    builder.append(nameLiteralForSerialization(toCSSValueID(composite, CSSPropertyMaskComposite)));
-}
-
-inline void ExtractorSerializer::serializeSingleWebkitMaskComposite(ExtractorState&, StringBuilder& builder, const CSS::SerializationContext&, CompositeOperator composite)
-{
-    builder.append(nameLiteralForSerialization(toCSSValueID(composite, CSSPropertyWebkitMaskComposite)));
-}
-
-inline void ExtractorSerializer::serializeSingleMaskMode(ExtractorState& state, StringBuilder& builder, const CSS::SerializationContext& context, MaskMode maskMode)
-{
-    switch (maskMode) {
-    case MaskMode::Alpha:
-        serializationForCSS(builder, context, state.style, CSS::Keyword::Alpha { });
-        return;
-    case MaskMode::Luminance:
-        serializationForCSS(builder, context, state.style, CSS::Keyword::Luminance { });
-        return;
-    case MaskMode::MatchSource:
-        serializationForCSS(builder, context, state.style, CSS::Keyword::MatchSource { });
-        return;
-    }
-    RELEASE_ASSERT_NOT_REACHED();
-}
-
-inline void ExtractorSerializer::serializeSingleWebkitMaskSourceType(ExtractorState& state, StringBuilder& builder, const CSS::SerializationContext& context, MaskMode maskMode)
-{
-    switch (maskMode) {
-    case MaskMode::Alpha:
-        serializationForCSS(builder, context, state.style, CSS::Keyword::Alpha { });
-        return;
-    case MaskMode::Luminance:
-        serializationForCSS(builder, context, state.style, CSS::Keyword::Luminance { });
-        return;
-    case MaskMode::MatchSource:
-        // MatchSource is only available in the mask-mode property.
-        serializationForCSS(builder, context, state.style, CSS::Keyword::Alpha { });
-        return;
-    }
-    RELEASE_ASSERT_NOT_REACHED();
 }
 
 } // namespace Style

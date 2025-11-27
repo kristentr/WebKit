@@ -26,6 +26,7 @@
 #pragma once
 
 #if USE(COORDINATED_GRAPHICS)
+#include <WebCore/CoordinatedCompositionReason.h>
 #include <WebCore/Damage.h>
 #include <WebCore/DisplayUpdate.h>
 #include <WebCore/GLContext.h>
@@ -68,10 +69,11 @@ public:
 #if PLATFORM(WPE) && USE(GBM) && ENABLE(WPE_PLATFORM)
     void preferredBufferFormatsDidChange();
 #endif
+    void pendingTilesDidChange();
 
     void setSize(const WebCore::IntSize&, float);
     void requestCompositionForRenderingUpdate(Function<void()>&&);
-    void scheduleUpdate();
+    void requestComposition(WebCore::CompositionReason);
     RunLoop* runLoop();
 
     void invalidate();
@@ -97,7 +99,7 @@ private:
     explicit ThreadedCompositor(LayerTreeHost&);
 
     void scheduleUpdateLocked();
-    void updateSceneState();
+    void flushCompositingState(const OptionSet<WebCore::CompositionReason>&);
     void renderLayerTree();
     void paintToCurrentGLContext(const WebCore::TransformationMatrix&, const WebCore::IntSize&);
     void frameComplete();
@@ -123,12 +125,14 @@ private:
         Idle,
         Scheduled,
         InProgress,
-        ScheduledWhileInProgress
+        ScheduledWhileInProgress,
+        WaitingForTiles
     };
 
     struct {
         mutable Lock lock;
         State state WTF_GUARDED_BY_LOCK(lock) { State::Idle };
+        OptionSet<WebCore::CompositionReason> reasons WTF_GUARDED_BY_LOCK(lock);
         Function<void()> didCompositeRenderinUpdateFunction WTF_GUARDED_BY_LOCK(lock);
     } m_state;
 

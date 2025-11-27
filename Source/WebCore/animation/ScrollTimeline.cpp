@@ -391,7 +391,19 @@ void ScrollTimeline::animationTimingDidChange(WebAnimation& animation)
 }
 
 #if ENABLE(THREADED_ANIMATIONS)
-Ref<AcceleratedTimeline> ScrollTimeline::createAcceleratedRepresentation()
+bool ScrollTimeline::computeCanBeAccelerated() const
+{
+    RefPtr source = this->source();
+    if (!source)
+        return false;
+
+    ASSERT(source->document().settings().threadedScrollDrivenAnimationsEnabled());
+
+    CheckedPtr sourceScrollableArea = scrollableAreaForSourceRenderer(source->renderer(), source->document());
+    return sourceScrollableArea && !!sourceScrollableArea->scrollingNodeID();
+}
+
+Ref<AcceleratedTimeline> ScrollTimeline::createAcceleratedRepresentation() const
 {
     ASSERT(this->source());
     ASSERT(this->source()->document().settings().threadedScrollDrivenAnimationsEnabled());

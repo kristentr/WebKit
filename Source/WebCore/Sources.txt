@@ -595,6 +595,7 @@ accessibility/AXObjectCache.cpp
 accessibility/AXObjectRareData.cpp
 accessibility/AXRemoteFrame.cpp
 accessibility/AXSearchManager.cpp
+accessibility/AXStitchUtilities.cpp
 accessibility/AXTableHelpers.cpp
 accessibility/AXTextMarker.cpp
 accessibility/AXTextRun.cpp
@@ -1245,6 +1246,7 @@ dom/Document.cpp
 dom/DocumentFontLoader.cpp
 dom/DocumentFragment.cpp
 dom/DocumentFullscreen.cpp
+dom/DocumentImmersive.cpp
 dom/DocumentMarkerController.cpp
 dom/DocumentMediaElement.cpp
 dom/DocumentOrShadowRootFullscreen.cpp
@@ -2853,6 +2855,7 @@ rendering/MarkedText.cpp
 rendering/MotionPath.cpp
 rendering/NinePieceImagePainter.cpp
 rendering/OrderIterator.cpp
+rendering/OutlinePainter.cpp
 rendering/PathOperation.cpp
 rendering/PointerEventsHitRules.cpp
 rendering/PositionedLayoutConstraints.cpp
@@ -2979,7 +2982,6 @@ rendering/style/BorderValue.cpp
 rendering/style/DropShadowFilterOperationWithStyleColor.cpp
 rendering/style/GridSpan.cpp
 rendering/style/OutlineValue.cpp
-rendering/style/PositionTryFallback.cpp
 rendering/style/PositionTryOrder.cpp
 rendering/style/ReferenceFilterOperation.cpp
 rendering/style/RenderStyle.cpp
@@ -2987,6 +2989,7 @@ rendering/style/RenderStyleConstants.cpp
 rendering/style/SVGRenderStyle.cpp
 rendering/style/SVGRenderStyleDefs.cpp
 rendering/style/StyleAppleColorFilterData.cpp
+rendering/style/StyleBackdropFilterData.cpp
 rendering/style/StyleBackgroundData.cpp
 rendering/style/StyleBoxData.cpp
 rendering/style/StyleCachedImage.cpp
@@ -3182,6 +3185,7 @@ style/values/anchor-position/StylePositionAreaSelf.cpp
 style/values/anchor-position/StylePositionAreaSpan.cpp
 style/values/anchor-position/StylePositionAreaTrack.cpp
 style/values/anchor-position/StylePositionArea.cpp
+style/values/anchor-position/StylePositionTryFallback.cpp
 style/values/animations/StyleAnimation.cpp
 style/values/animations/StyleSingleAnimationName.cpp
 style/values/animations/StyleSingleAnimationRangeName.cpp
@@ -3284,6 +3288,7 @@ style/values/masking/StyleMaskBorderSource.cpp
 style/values/masking/StyleMaskBorderWidth.cpp
 style/values/masking/StyleMaskBorder.cpp
 style/values/masking/StyleMaskLayer.cpp
+style/values/masking/StyleMaskMode.cpp
 style/values/math/StyleMathDepth.cpp
 style/values/motion/StyleOffsetAnchor.cpp
 style/values/motion/StyleOffsetPath.cpp
@@ -3355,6 +3360,8 @@ style/values/text-decoration/StyleTextUnderlinePosition.cpp
 style/values/text/StyleHangingPunctuation.cpp
 style/values/text/StyleLetterSpacing.cpp
 style/values/text/StyleTabSize.cpp
+style/values/text/StyleTextAlign.cpp
+style/values/text/StyleTextAlignLast.cpp
 style/values/text/StyleTextAutospace.cpp
 style/values/text/StyleTextIndent.cpp
 style/values/text/StyleTextTransform.cpp
@@ -3378,6 +3385,7 @@ style/values/transitions/StyleSingleTransitionProperty.cpp
 style/values/transitions/StyleTransition.cpp
 style/values/ui/StyleAccentColor.cpp
 style/values/ui/StyleCursor.cpp
+style/values/ui/StyleResize.cpp
 style/values/view-transitions/StyleViewTransitionName.cpp
 style/values/will-change/StyleWillChange.cpp
 svg/DocumentSVG.cpp

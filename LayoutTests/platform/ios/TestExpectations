@@ -2365,6 +2365,7 @@ accessibility/dynamic-datetime-attribute.html [ Pass ]
 accessibility/dynamic-font-change-dirty-style-and-relations.html [ Pass ]
 accessibility/dynamic-speak-as.html [ Pass ]
 accessibility/dynamic-text.html [ Pass ]
+accessibility/dynamic-text-stitching.html [ Pass ]
 accessibility/dynamic-text-color-change-dirty-style-and-relations.html [ Pass ]
 accessibility/dynamically-ignored-canvas.html [ Pass ]
 accessibility/editable-webpage-focused-ui-element.html [ Pass ]
@@ -3612,8 +3613,6 @@ fast/text/design-system-ui-13.html [ Pass ]
 fast/text/design-system-ui-14.html [ Pass ]
 fast/text/design-system-ui-15.html [ Pass ]
 fast/text/design-system-ui-16.html [ Pass ]
-
-webkit.org/b/237680 imported/w3c/web-platform-tests/service-workers/service-worker/partitioned-service-worker-matchAll.tentative.https.html [ Pass Failure ]
 
 webkit.org/b/237987 imported/w3c/web-platform-tests/html/semantics/forms/textfieldselection/selection-not-application-textarea.html [ Pass Failure ]
 

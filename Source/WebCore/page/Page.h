@@ -321,6 +321,9 @@ enum class RenderingUpdateStep : uint32_t {
     RestoreScrollPositionAndViewState   = 1 << 27,
     AdjustVisibility                    = 1 << 28,
     SnapshottedScrollOffsets            = 1 << 29,
+#if ENABLE(MODEL_ELEMENT_IMMERSIVE)
+    Immersive                           = 1 << 30,
+#endif
 
 };
 
@@ -752,6 +755,7 @@ public:
     Ref<ServicesOverlayController> protectedServicesOverlayController();
 #endif
     ImageOverlayController& imageOverlayController();
+    Ref<ImageOverlayController> protectedImageOverlayController();
     ImageOverlayController* imageOverlayControllerIfExists() { return m_imageOverlayController.get(); }
 
 #if ENABLE(IMAGE_ANALYSIS)

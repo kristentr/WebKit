@@ -128,17 +128,6 @@ public:
 
     static Ref<CSSValue> convertTransformationMatrix(ExtractorState&, const TransformationMatrix&);
     static Ref<CSSValue> convertTransformationMatrix(const RenderStyle&, const TransformationMatrix&);
-
-    // MARK: Shared conversions
-
-    static Ref<CSSValue> convertPositionTryFallbacks(ExtractorState&, const FixedVector<PositionTryFallback>&);
-
-    // MARK: MaskLayer property conversions
-
-    static Ref<CSSValue> convertSingleMaskComposite(ExtractorState&, CompositeOperator);
-    static Ref<CSSValue> convertSingleWebkitMaskComposite(ExtractorState&, CompositeOperator);
-    static Ref<CSSValue> convertSingleMaskMode(ExtractorState&, MaskMode);
-    static Ref<CSSValue> convertSingleWebkitMaskSourceType(ExtractorState&, MaskMode);
 };
 
 // MARK: - Strong value conversions
@@ -226,74 +215,6 @@ inline Ref<CSSValue> ExtractorConverter::convertTransformationMatrix(const Rende
     for (auto value : values)
         arguments.append(CSSPrimitiveValue::create(value));
     return CSSFunctionValue::create(CSSValueMatrix3d, WTFMove(arguments));
-}
-
-// MARK: - Shared conversions
-
-inline Ref<CSSValue> ExtractorConverter::convertPositionTryFallbacks(ExtractorState& state, const FixedVector<PositionTryFallback>& fallbacks)
-{
-    if (fallbacks.isEmpty())
-        return CSSPrimitiveValue::create(CSSValueNone);
-
-    CSSValueListBuilder list;
-    for (auto& fallback : fallbacks) {
-        if (RefPtr positionAreaProperties = fallback.positionAreaProperties) {
-            auto areaValue = positionAreaProperties->getPropertyCSSValue(CSSPropertyPositionArea);
-            if (areaValue)
-                list.append(*areaValue);
-            continue;
-        }
-
-        CSSValueListBuilder singleFallbackList;
-        if (fallback.positionTryRuleName)
-            singleFallbackList.append(convert(state, *fallback.positionTryRuleName));
-        for (auto& tactic : fallback.tactics)
-            singleFallbackList.append(convert(state, tactic));
-        list.append(CSSValueList::createSpaceSeparated(singleFallbackList));
-    }
-
-    return CSSValueList::createCommaSeparated(WTFMove(list));
-}
-
-// MARK: - MaskLayer property conversions
-
-inline Ref<CSSValue> ExtractorConverter::convertSingleMaskComposite(ExtractorState&, CompositeOperator composite)
-{
-    return CSSPrimitiveValue::create(toCSSValueID(composite, CSSPropertyMaskComposite));
-}
-
-inline Ref<CSSValue> ExtractorConverter::convertSingleWebkitMaskComposite(ExtractorState&, CompositeOperator composite)
-{
-    return CSSPrimitiveValue::create(toCSSValueID(composite, CSSPropertyWebkitMaskComposite));
-}
-
-inline Ref<CSSValue> ExtractorConverter::convertSingleMaskMode(ExtractorState&, MaskMode maskMode)
-{
-    switch (maskMode) {
-    case MaskMode::Alpha:
-        return CSSPrimitiveValue::create(CSSValueAlpha);
-    case MaskMode::Luminance:
-        return CSSPrimitiveValue::create(CSSValueLuminance);
-    case MaskMode::MatchSource:
-        return CSSPrimitiveValue::create(CSSValueMatchSource);
-    }
-    ASSERT_NOT_REACHED();
-    return CSSPrimitiveValue::create(CSSValueMatchSource);
-}
-
-inline Ref<CSSValue> ExtractorConverter::convertSingleWebkitMaskSourceType(ExtractorState&, MaskMode maskMode)
-{
-    switch (maskMode) {
-    case MaskMode::Alpha:
-        return CSSPrimitiveValue::create(CSSValueAlpha);
-    case MaskMode::Luminance:
-        return CSSPrimitiveValue::create(CSSValueLuminance);
-    case MaskMode::MatchSource:
-        // MatchSource is only available in the mask-mode property.
-        return CSSPrimitiveValue::create(CSSValueAlpha);
-    }
-    ASSERT_NOT_REACHED();
-    return CSSPrimitiveValue::create(CSSValueAlpha);
 }
 
 } // namespace Style

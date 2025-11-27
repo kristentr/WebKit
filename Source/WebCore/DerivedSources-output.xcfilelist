@@ -922,6 +922,8 @@ $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+HTML.cpp
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+HTML.h
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+HTMLObsolete.cpp
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+HTMLObsolete.h
+$(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+Immersive.cpp
+$(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+Immersive.h
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+PageVisibility.cpp
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+PageVisibility.h
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/JSDocument+PictureInPicture.cpp
@@ -3735,6 +3737,8 @@ $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/ReadableStreamDefaultReaderBuiltins
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/ReadableStreamDefaultReaderBuiltins.h
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/ReadableStreamInternalsBuiltins.cpp
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/ReadableStreamInternalsBuiltins.h
+$(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/RenderStyleInlinesGenerated.h
+$(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/RenderStyleSettersGenerated.h
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/SVGElementFactory.cpp
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/SVGElementFactory.h
 $(BUILT_PRODUCTS_DIR)/DerivedSources/WebCore/SVGElementTypeHelpers.h

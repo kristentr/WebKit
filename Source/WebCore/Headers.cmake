@@ -331,6 +331,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     Modules/WebGPU/InternalAPI/WebGPUVertexStepMode.h
     Modules/WebGPU/InternalAPI/WebGPUXRBinding.h
     Modules/WebGPU/InternalAPI/WebGPUXREye.h
+    Modules/WebGPU/InternalAPI/WebGPUXRLayerBacking.h
     Modules/WebGPU/InternalAPI/WebGPUXRProjectionLayer.h
     Modules/WebGPU/InternalAPI/WebGPUXRSubImage.h
     Modules/WebGPU/InternalAPI/WebGPUXRView.h
@@ -865,6 +866,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
 
     Modules/webxr/XRCanvasConfiguration.h
     Modules/webxr/XRGPUProjectionLayerInit.h
+    Modules/webxr/XRLayerBacking.h
     Modules/webxr/XRHitTestTrackableType.h
 
     Scripts/generate-log-declarations.py
@@ -873,6 +875,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     accessibility/AXComputedObjectAttributeCache.h
     accessibility/AXCoreObject.h
     accessibility/AXGeometryManager.h
+    accessibility/AXID.h
     accessibility/AXListHelpers.h
     accessibility/AXLogger.h
     accessibility/AXLoggerBase.h
@@ -881,6 +884,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     accessibility/AXObjectCacheInlines.h
     accessibility/AXObjectRareData.h
     accessibility/AXSearchManager.h
+    accessibility/AXStitchUtilities.h
     accessibility/AXTextMarker.h
     accessibility/AXTextRun.h
     accessibility/AXTextStateChangeIntent.h
@@ -1351,6 +1355,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     dom/DocumentFontLoader.h
     dom/DocumentFragment.h
     dom/DocumentFullscreen.h
+    dom/DocumentImmersive.h
     dom/DocumentInlines.h
     dom/DocumentMarker.h
     dom/DocumentMarkerController.h
@@ -3177,7 +3182,6 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     rendering/style/GridArea.h
     rendering/style/GridSpan.h
     rendering/style/OutlineValue.h
-    rendering/style/PositionTryFallback.h
     rendering/style/PositionTryOrder.h
     rendering/style/RenderStyle.h
     rendering/style/RenderStyleConstants.h
@@ -3186,6 +3190,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     rendering/style/SVGRenderStyle.h
     rendering/style/SVGRenderStyleDefs.h
     rendering/style/StyleAppleColorFilterData.h
+    rendering/style/StyleBackdropFilterData.h
     rendering/style/StyleBackgroundData.h
     rendering/style/StyleBoxData.h
     rendering/style/StyleCachedImage.h
@@ -3271,6 +3276,9 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     style/values/anchor-position/StylePositionAreaSelf.h
     style/values/anchor-position/StylePositionAreaSpan.h
     style/values/anchor-position/StylePositionAreaTrack.h
+    style/values/anchor-position/StylePositionTryFallback.h
+    style/values/anchor-position/StylePositionTryFallbackTactic.h
+    style/values/anchor-position/StylePositionTryFallbacks.h
     style/values/anchor-position/StylePositionVisibility.h
 
     style/values/animations/StyleAnimation.h
@@ -3401,6 +3409,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     style/values/masking/StyleMaskBorderWidth.h
     style/values/masking/StyleMaskLayer.h
     style/values/masking/StyleMaskLayers.h
+    style/values/masking/StyleMaskMode.h
 
     style/values/math/StyleMathDepth.h
 
@@ -3524,6 +3533,8 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     style/values/text/StyleHyphenateLimitLines.h
     style/values/text/StyleLetterSpacing.h
     style/values/text/StyleTabSize.h
+    style/values/text/StyleTextAlign.h
+    style/values/text/StyleTextAlignLast.h
     style/values/text/StyleTextAutospace.h
     style/values/text/StyleTextIndent.h
     style/values/text/StyleTextSpacingTrim.h
@@ -3567,6 +3578,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
 
     style/values/ui/StyleAccentColor.h
     style/values/ui/StyleCursor.h
+    style/values/ui/StyleResize.h
 
     style/values/view-transitions/StyleViewTransitionClass.h
     style/values/view-transitions/StyleViewTransitionName.h
@@ -3779,6 +3791,7 @@ set(WebCore_PRIVATE_FRAMEWORK_HEADERS
     ${WebCore_DERIVED_SOURCES_DIR}/Namespace.h
     ${WebCore_DERIVED_SOURCES_DIR}/NodeName.h
     ${WebCore_DERIVED_SOURCES_DIR}/ReadableStreamInternalsBuiltins.h
+    ${WebCore_DERIVED_SOURCES_DIR}/RenderStyleInlinesGenerated.h
     ${WebCore_DERIVED_SOURCES_DIR}/SVGNames.h
     ${WebCore_DERIVED_SOURCES_DIR}/Settings.h
     ${WebCore_DERIVED_SOURCES_DIR}/StreamInternalsBuiltins.h

@@ -99,6 +99,8 @@ ThreadedCompositor::ThreadedCompositor(LayerTreeHost& layerTreeHost)
             if (!nativeSurfaceHandle)
                 m_flipY = !m_flipY;
             glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m_maxTextureSize);
+
+            m_textureMapper = TextureMapper::create();
         }
     });
 }
@@ -128,7 +130,7 @@ void ThreadedCompositor::invalidate()
             return;
 
         // Update the scene at this point ensures the layers state are correctly propagated.
-        updateSceneState();
+        flushCompositingState(CompositionReason::RenderingUpdate);
 
         m_sceneState->invalidateCommittedLayers();
         m_textureMapper = nullptr;
@@ -186,6 +188,20 @@ void ThreadedCompositor::preferredBufferFormatsDidChange()
 }
 #endif
 
+void ThreadedCompositor::pendingTilesDidChange()
+{
+    Locker locker { m_state.lock };
+    if (m_state.state != State::WaitingForTiles)
+        return;
+
+    if (m_sceneState->pendingTiles())
+        return;
+
+    m_state.state = State::Scheduled;
+    if (!m_suspendedCount.load())
+        m_renderTimer.startOneShot(0_s);
+}
+
 void ThreadedCompositor::setSize(const IntSize& size, float deviceScaleFactor)
 {
     ASSERT(RunLoop::isMain());
@@ -210,20 +226,19 @@ void ThreadedCompositor::enableFrameDamageNotificationForTesting()
 }
 #endif
 
-void ThreadedCompositor::updateSceneState()
+void ThreadedCompositor::flushCompositingState(const OptionSet<CompositionReason>& reasons)
 {
-    if (!m_textureMapper)
-        m_textureMapper = TextureMapper::create();
+    if (reasons.hasExactlyOneBitSet() && reasons.contains(CompositionReason::Animation))
+        return;
 
-    m_sceneState->rootLayer().flushCompositingState(*m_textureMapper);
+    ASSERT(!reasons.contains(CompositionReason::RenderingUpdate) || !m_sceneState->pendingTiles());
+    m_sceneState->rootLayer().flushCompositingState(reasons, *m_textureMapper);
     for (auto& layer : m_sceneState->committedLayers())
-        layer->flushCompositingState(*m_textureMapper);
+        layer->flushCompositingState(reasons, *m_textureMapper);
 }
 
 void ThreadedCompositor::paintToCurrentGLContext(const TransformationMatrix& matrix, const IntSize& size)
 {
-    updateSceneState();
-
     FloatRect clipRect(FloatPoint { }, size);
     TextureMapperLayer& currentRootLayer = m_sceneState->rootLayer().ensureTarget();
     if (currentRootLayer.transform() != matrix)
@@ -284,7 +299,18 @@ void ThreadedCompositor::paintToCurrentGLContext(const TransformationMatrix& mat
     m_textureMapper->endPainting();
 
     if (sceneHasRunningAnimations)
-        scheduleUpdate();
+        requestComposition(CompositionReason::Animation);
+}
+
+static String reasonsToString(const OptionSet<CompositionReason>& reasons)
+{
+    StringBuilder builder;
+    for (auto reason : reasons) {
+        if (!builder.isEmpty())
+            builder.append(", "_s);
+        builder.append(enumName(reason));
+    }
+    return builder.toString();
 }
 
 void ThreadedCompositor::renderLayerTree()
@@ -298,10 +324,13 @@ void ThreadedCompositor::renderLayerTree()
     if (m_suspendedCount > 0)
         return;
 
+    OptionSet<CompositionReason> reasons;
     bool shouldNotifiyDidComposite = false;
     {
         Locker locker { m_state.lock };
+        reasons = std::exchange(m_state.reasons, { });
         shouldNotifiyDidComposite = !!m_state.didCompositeRenderinUpdateFunction;
+        ASSERT(m_state.state == State::Scheduled);
         m_state.state = State::InProgress;
     }
 
@@ -330,6 +359,10 @@ void ThreadedCompositor::renderLayerTree()
             m_layerTreeHost->willRenderFrame();
     });
 
+    WTFBeginSignpost(this, FlushCompositingState);
+    flushCompositingState(reasons);
+    WTFEndSignpost(this, FlushCompositingState);
+
     WTFBeginSignpost(this, PaintToGLContext);
     paintToCurrentGLContext(viewportTransform, viewportSize);
     WTFEndSignpost(this, PaintToGLContext);
@@ -339,7 +372,7 @@ void ThreadedCompositor::renderLayerTree()
     if (shouldNotifiyDidComposite)
         m_didCompositeRunLoopObserver->schedule(&RunLoop::mainSingleton());
 
-    WTFEmitSignpost(this, DidRenderFrame);
+    WTFEmitSignpost(this, DidRenderFrame, "reasons: %s", reasonsToString(reasons).ascii().data());
 
     m_context->swapBuffers();
 
@@ -355,14 +388,16 @@ void ThreadedCompositor::requestCompositionForRenderingUpdate(Function<void()>&&
 {
     ASSERT(RunLoop::isMain());
     Locker locker { m_state.lock };
+    m_state.reasons.add(CompositionReason::RenderingUpdate);
     ASSERT(!m_state.didCompositeRenderinUpdateFunction);
     m_state.didCompositeRenderinUpdateFunction = WTFMove(didCompositeFunction);
     scheduleUpdateLocked();
 }
 
-void ThreadedCompositor::scheduleUpdate()
+void ThreadedCompositor::requestComposition(CompositionReason reason)
 {
     Locker locker { m_state.lock };
+    m_state.reasons.add(reason);
     scheduleUpdateLocked();
 }
 
@@ -370,15 +405,25 @@ void ThreadedCompositor::scheduleUpdateLocked()
 {
     switch (m_state.state) {
     case State::Idle:
-        m_state.state = State::Scheduled;
-        if (!m_suspendedCount.load())
-            m_renderTimer.startOneShot(0_s);
+        if (m_state.reasons.contains(CompositionReason::RenderingUpdate) && m_sceneState->pendingTiles())
+            m_state.state = State::WaitingForTiles;
+        else {
+            m_state.state = State::Scheduled;
+            if (!m_suspendedCount.load())
+                m_renderTimer.startOneShot(0_s);
+        }
         break;
     case State::Scheduled:
-    case State::ScheduledWhileInProgress:
+        if (m_state.reasons.contains(CompositionReason::RenderingUpdate) && m_sceneState->pendingTiles()) {
+            m_renderTimer.stop();
+            m_state.state = State::WaitingForTiles;
+        }
         break;
     case State::InProgress:
         m_state.state = State::ScheduledWhileInProgress;
+        break;
+    case State::ScheduledWhileInProgress:
+    case State::WaitingForTiles:
         break;
     }
 }
@@ -392,14 +437,19 @@ void ThreadedCompositor::frameComplete()
     switch (m_state.state) {
     case State::Idle:
     case State::Scheduled:
+    case State::WaitingForTiles:
         break;
     case State::InProgress:
         m_state.state = State::Idle;
         break;
     case State::ScheduledWhileInProgress:
-        m_state.state = State::Scheduled;
-        if (!m_suspendedCount.load())
-            m_renderTimer.startOneShot(0_s);
+        if (m_state.reasons.contains(CompositionReason::RenderingUpdate) && m_sceneState->pendingTiles())
+            m_state.state = State::WaitingForTiles;
+        else {
+            m_state.state = State::Scheduled;
+            if (!m_suspendedCount.load())
+                m_renderTimer.startOneShot(0_s);
+        }
         break;
     }
 }

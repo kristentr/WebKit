@@ -1184,6 +1184,7 @@ set(WebCore_NON_SVG_IDL_FILES
     dom/Document+CSSOMView.idl
     dom/Document+CaretPositionFromPoint.idl
     dom/Document+Fullscreen.idl
+    dom/Document+Immersive.idl
     dom/Document+HTML.idl
     dom/Document+HTMLObsolete.idl
     dom/Document+PageVisibility.idl
@@ -2798,7 +2799,7 @@ list(APPEND WebCore_SOURCES ${WebCore_DERIVED_SOURCES_DIR}/WebCoreLogDefinitions
 
 # Generate CSS property names
 add_custom_command(
-    OUTPUT ${WebCore_DERIVED_SOURCES_DIR}/CSSProperties.json ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyNames.h ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyNames.cpp ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyNames.gperf ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyParsing.h ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyParsing.cpp ${WebCore_DERIVED_SOURCES_DIR}/StyleBuilderGenerated.cpp ${WebCore_DERIVED_SOURCES_DIR}/StyleExtractorGenerated.cpp ${WebCore_DERIVED_SOURCES_DIR}/StyleInterpolationWrapperMap.h ${WebCore_DERIVED_SOURCES_DIR}/StyleInterpolationWrapperMap.cpp ${WebCore_DERIVED_SOURCES_DIR}/StylePropertyShorthandFunctions.h ${WebCore_DERIVED_SOURCES_DIR}/StylePropertyShorthandFunctions.cpp ${WebCore_DERIVED_SOURCES_DIR}/CSSStyleProperties+PropertyNames.idl
+    OUTPUT ${WebCore_DERIVED_SOURCES_DIR}/CSSProperties.json ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyNames.h ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyNames.cpp ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyNames.gperf ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyParsing.h ${WebCore_DERIVED_SOURCES_DIR}/CSSPropertyParsing.cpp ${WebCore_DERIVED_SOURCES_DIR}/RenderStyleInlinesGenerated.h ${WebCore_DERIVED_SOURCES_DIR}/RenderStyleSettersGenerated.h ${WebCore_DERIVED_SOURCES_DIR}/StyleBuilderGenerated.cpp ${WebCore_DERIVED_SOURCES_DIR}/StyleExtractorGenerated.cpp ${WebCore_DERIVED_SOURCES_DIR}/StyleInterpolationWrapperMap.h ${WebCore_DERIVED_SOURCES_DIR}/StyleInterpolationWrapperMap.cpp ${WebCore_DERIVED_SOURCES_DIR}/StylePropertyShorthandFunctions.h ${WebCore_DERIVED_SOURCES_DIR}/StylePropertyShorthandFunctions.cpp ${WebCore_DERIVED_SOURCES_DIR}/CSSStyleProperties+PropertyNames.idl
     MAIN_DEPENDENCY ${WEBCORE_DIR}/css/scripts/process-css-properties.py
     DEPENDS ${WebCore_CSS_PROPERTY_NAMES}
     WORKING_DIRECTORY ${WebCore_DERIVED_SOURCES_DIR}

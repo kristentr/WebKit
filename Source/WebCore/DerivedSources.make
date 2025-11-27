@@ -1153,6 +1153,7 @@ JS_BINDING_IDLS := \
     $(WebCore)/dom/Document+CSSOMView.idl \
     $(WebCore)/dom/Document+CaretPositionFromPoint.idl \
     $(WebCore)/dom/Document+Fullscreen.idl \
+    $(WebCore)/dom/Document+Immersive.idl \
     $(WebCore)/dom/Document+HTML.idl \
     $(WebCore)/dom/Document+HTMLObsolete.idl \
     $(WebCore)/dom/Document+PageVisibility.idl \
@@ -1966,6 +1967,8 @@ all : \
     Namespace.h \
     NodeName.cpp \
     NodeName.h \
+    RenderStyleInlinesGenerated.h \
+    RenderStyleSettersGenerated.h \
     SVGElementFactory.cpp \
     SVGElementFactory.h \
     SVGElementTypeHelpers.h \
@@ -2016,6 +2019,8 @@ CSS_PROPERTY_NAME_FILES = \
     CSSPropertyParsing.cpp \
     CSSPropertyParsing.h \
     CSSStyleProperties+PropertyNames.idl \
+    RenderStyleInlinesGenerated.h \
+    RenderStyleSettersGenerated.h \
     StyleBuilderGenerated.cpp \
     StyleExtractorGenerated.cpp \
     StyleInterpolationWrapperMap.cpp \
