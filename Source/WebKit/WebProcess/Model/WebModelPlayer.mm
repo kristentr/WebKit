@@ -117,7 +117,11 @@ private:
     WTF::MachSendRight m_displayBuffer;
     const float m_contentsScale;
     bool m_isOpaque;
+#if ENABLE(PIXEL_FORMAT_RGBA16F)
+    WebCore::ContentsFormat m_contentsFormat { WebCore::ContentsFormat::RGBA16F };
+#else
     WebCore::ContentsFormat m_contentsFormat { WebCore::ContentsFormat::RGBA8 };
+#endif
 };
 
 Ref<WebModelPlayer> WebModelPlayer::create(WebCore::Page& page, WebCore::ModelPlayerClient& client)
@@ -533,10 +537,12 @@ void WebModelPlayer::update()
     simulate(elapsedTime);
 
     auto timeDelta = paused() ? 0.f : (m_playbackRate * elapsedTime);
-    if (!m_isLooping && [m_modelLoader currentTime] > [m_modelLoader duration])
-        timeDelta = 0.f;
 
     [m_modelLoader update:timeDelta];
+
+    if (!m_isLooping && !paused() && [m_modelLoader currentTime] >= [m_modelLoader duration])
+        m_pauseState = PauseState::Paused;
+
     if (m_didFinishLoading) {
         if (RefPtr currentModel = m_currentModel)
             currentModel->render();
@@ -565,6 +571,8 @@ bool WebModelPlayer::supportsTransform(WebCore::TransformationMatrix transformat
 void WebModelPlayer::play(bool playing)
 {
     if (RefPtr model = m_currentModel) {
+        if (playing && !m_isLooping && [m_modelLoader currentTime] >= [m_modelLoader duration])
+            [m_modelLoader setCurrentTime:0];
         model->play(playing);
         m_pauseState = playing ? PauseState::Playing : PauseState::Paused;
     }
@@ -576,6 +584,7 @@ void WebModelPlayer::setLoop(bool loop)
         return;
 
     m_isLooping = loop;
+    [m_modelLoader setLoop:loop];
 }
 
 void WebModelPlayer::setAutoplay(bool autoplay)

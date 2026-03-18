@@ -54,7 +54,8 @@
 #include "JSApplePayPayment.h"
 #include "JSApplePayPaymentMethod.h"
 #include "JSApplePayRequest.h"
-#include "JSDOMConvert.h"
+#include "JSDOMConvertInterface.h"
+#include "JSDOMConvertSequences.h"
 #include "LinkIconCollector.h"
 #include "LocalFrame.h"
 #include "MerchantValidationEvent.h"
@@ -78,7 +79,7 @@
 
 namespace WebCore {
 
-static inline PaymentCoordinator& paymentCoordinator(Document& document)
+static inline PaymentCoordinator& NODELETE paymentCoordinator(Document& document)
 {
     ASSERT(document.page());
     return document.page()->paymentCoordinator();

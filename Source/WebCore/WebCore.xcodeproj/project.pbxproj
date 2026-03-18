@@ -6686,7 +6686,6 @@
 		E3C788FD2D039A2500D6C13D /* LogMessages.in in Headers */ = {isa = PBXBuildFile; fileRef = E3C788FC2D039A1600D6C13D /* LogMessages.in */; settings = {ATTRIBUTES = (Private, ); }; };
 		E3C99A091DC3D41C00794AD3 /* DOMJITCheckDOM.h in Headers */ = {isa = PBXBuildFile; fileRef = E3C99A081DC3D41700794AD3 /* DOMJITCheckDOM.h */; };
 		E3CA0BFC2673F47C009FDD67 /* JSDOMBindingSecurityInlines.h in Headers */ = {isa = PBXBuildFile; fileRef = E3CA0BFA2673F478009FDD67 /* JSDOMBindingSecurityInlines.h */; };
-		E3D3C00B2881D90B00ECD5F6 /* GPUAvailabilityMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3D3C00A2881D90B00ECD5F6 /* GPUAvailabilityMetal.mm */; };
 		E3E4E2A81E3B17100023BB8A /* ScriptElementCachedScriptFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = E3E4E2A61E3B16FC0023BB8A /* ScriptElementCachedScriptFetcher.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E3FA38641D71812D00AA5950 /* PendingScriptClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E3FA38611D716E7600AA5950 /* PendingScriptClient.h */; };
 		E401B3632A942E3F0018B557 /* ScopedName.h in Headers */ = {isa = PBXBuildFile; fileRef = E401B3622A942E3E0018B557 /* ScopedName.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -20437,6 +20436,7 @@
 		CD225C091C46FBF400140761 /* WebCoreNSURLSession.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebCoreNSURLSession.mm; sourceTree = "<group>"; };
 		CD225C0A1C46FBF400140761 /* WebCoreNSURLSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebCoreNSURLSession.h; sourceTree = "<group>"; };
 		CD24B8692982DCCA000A53FE /* HTMLMediaElementIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLMediaElementIdentifier.h; sourceTree = "<group>"; };
+		CD25AE222F654B2200EDB3D6 /* JSDOMConvertBoolean.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = JSDOMConvertBoolean.cpp; sourceTree = "<group>"; };
 		CD27AE4E22A9868700947FF9 /* ImageRotationSessionVT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageRotationSessionVT.h; sourceTree = "<group>"; };
 		CD27AE4F22A9868700947FF9 /* ImageRotationSessionVT.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageRotationSessionVT.mm; sourceTree = "<group>"; };
 		CD27F6E014575C1B0078207D /* MediaController.idl */ = {isa = PBXFileReference; lastKnownFileType = text; path = MediaController.idl; sourceTree = "<group>"; };
@@ -21971,6 +21971,7 @@
 		E35B907C23F60677000011FF /* LocalizedDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalizedDeviceModel.h; sourceTree = "<group>"; };
 		E35B907E23F60677000011FF /* LocalizedDeviceModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LocalizedDeviceModel.mm; sourceTree = "<group>"; };
 		E364321A25D37A6600F90E2A /* ModuleScriptLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleScriptLoader.h; sourceTree = "<group>"; };
+		E364321B25D37A6600F90E2A /* ModuleScriptLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModuleScriptLoader.cpp; sourceTree = "<group>"; };
 		E36D701B27B70B23006531B7 /* AttachmentElementClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttachmentElementClient.h; sourceTree = "<group>"; };
 		E36D701E27B71F04006531B7 /* EmptyAttachmentElementClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmptyAttachmentElementClient.h; sourceTree = "<group>"; };
 		E37C864F1EB63E2D0087C6CA /* JSDOMPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDOMPromise.h; sourceTree = "<group>"; };
@@ -22015,8 +22016,6 @@
 		E3C99A081DC3D41700794AD3 /* DOMJITCheckDOM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOMJITCheckDOM.h; sourceTree = "<group>"; };
 		E3CA0BFA2673F478009FDD67 /* JSDOMBindingSecurityInlines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSDOMBindingSecurityInlines.h; sourceTree = "<group>"; };
 		E3D049931DADC04500718F3C /* NodeType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeType.h; sourceTree = "<group>"; };
-		E3D3C0092881D72200ECD5F6 /* GPUAvailability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPUAvailability.h; sourceTree = "<group>"; };
-		E3D3C00A2881D90B00ECD5F6 /* GPUAvailabilityMetal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GPUAvailabilityMetal.mm; sourceTree = "<group>"; };
 		E3E4E2A51E3B16FC0023BB8A /* ScriptElementCachedScriptFetcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScriptElementCachedScriptFetcher.cpp; sourceTree = "<group>"; };
 		E3E4E2A61E3B16FC0023BB8A /* ScriptElementCachedScriptFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptElementCachedScriptFetcher.h; sourceTree = "<group>"; };
 		E3FA38611D716E7600AA5950 /* PendingScriptClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PendingScriptClient.h; sourceTree = "<group>"; };
@@ -25659,7 +25658,6 @@
 			isa = PBXGroup;
 			children = (
 				1CE3497B26B33B8C008306BD /* cocoa */,
-				E3D3C0092881D72200ECD5F6 /* GPUAvailability.h */,
 			);
 			path = gpu;
 			sourceTree = "<group>";
@@ -25667,7 +25665,6 @@
 		1CE3497B26B33B8C008306BD /* cocoa */ = {
 			isa = PBXGroup;
 			children = (
-				E3D3C00A2881D90B00ECD5F6 /* GPUAvailabilityMetal.mm */,
 			);
 			path = cocoa;
 			sourceTree = "<group>";
@@ -31617,6 +31614,7 @@
 				930841331CDDB15500B0958C /* JSDOMConvert.h */,
 				7C8E34921E4A338E0054CE23 /* JSDOMConvertAny.h */,
 				7C8E34931E4A338E0054CE23 /* JSDOMConvertBase.h */,
+				CD25AE222F654B2200EDB3D6 /* JSDOMConvertBoolean.cpp */,
 				7C8E34941E4A338E0054CE23 /* JSDOMConvertBoolean.h */,
 				7C8E34951E4A338E0054CE23 /* JSDOMConvertBufferSource.h */,
 				7C8E34961E4A338E0054CE23 /* JSDOMConvertCallbacks.h */,
@@ -36548,6 +36546,7 @@
 				4BDEA32D218034050052DFCD /* JSWorkletGlobalScopeBase.cpp */,
 				4BDEA32B218033EB0052DFCD /* JSWorkletGlobalScopeBase.h */,
 				709A01FD1E3D0BCC006B0D4C /* ModuleFetchFailureKind.h */,
+				E364321B25D37A6600F90E2A /* ModuleScriptLoader.cpp */,
 				E364321A25D37A6600F90E2A /* ModuleScriptLoader.h */,
 				E35188B325D387CF00A77AF3 /* ModuleScriptLoaderClient.h */,
 				418C395E1C8F0AAB0051C8A3 /* ReadableStreamDefaultController.cpp */,
@@ -49567,7 +49566,6 @@
 				4664D1A62964FCE8006FE0C5 /* GamepadHapticActuator.cpp in Sources */,
 				51A9D9E9195B931F001B2B5C /* GamepadManager.cpp in Sources */,
 				837964CF1F8DB69D00218EA0 /* GeolocationPositionDataCocoa.mm in Sources */,
-				E3D3C00B2881D90B00ECD5F6 /* GPUAvailabilityMetal.mm in Sources */,
 				6E72F54E229DCD1000B3E151 /* GraphicsContextGLANGLE.cpp in Sources */,
 				7BE37F7A27BB86AB007A6CD3 /* GraphicsContextGLCocoa.mm in Sources */,
 				4195B986296442AA0071566E /* GraphicsContextGLCVCocoa.mm in Sources */,

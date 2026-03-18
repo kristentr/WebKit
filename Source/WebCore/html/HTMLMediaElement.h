@@ -309,9 +309,9 @@ public:
     double seekableTimeRangesLastModifiedTime() const;
     double liveUpdateInterval() const;
     WEBCORE_EXPORT bool ended() const;
-    bool autoplay() const;
+    bool NODELETE autoplay() const;
     bool isAutoplaying() const { return m_autoplaying; }
-    bool loop() const;
+    bool NODELETE loop() const;
     void setLoop(bool b);
 
     void play(DOMPromiseDeferred<void>&&);
@@ -529,6 +529,7 @@ public:
 
 #if ENABLE(FULLSCREEN_API)
     void documentFullscreenChanged(bool isChildOfElementFullscreen);
+    WEBCORE_EXPORT bool isChildOfElementFullscreen() const;
 #endif
 
     bool hasClosedCaptions() const override;
@@ -1023,7 +1024,7 @@ private:
 
     void mediaCanStart(Document&) final;
 
-    void invalidateOfficialPlaybackPosition();
+    void NODELETE invalidateOfficialPlaybackPosition();
 
     void configureMediaControls();
 

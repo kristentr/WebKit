@@ -86,6 +86,10 @@
 #include "IdleRequestOptions.h"
 #include "InputEvent.h"
 #include "InspectorInstrumentation.h"
+#include "JSDOMConvertBoolean.h"
+#include "JSDOMConvertEnumeration.h"
+#include "JSDOMConvertInterface.h"
+#include "JSDOMConvertNullable.h"
 #include "JSDOMExceptionHandling.h"
 #include "JSDOMPromiseDeferred.h"
 #include "JSDOMWindowBase.h"
@@ -192,7 +196,7 @@ using namespace Inspector;
 
 static constexpr Seconds defaultTransientActivationDuration { 5_s };
 
-static WeakHashSet<LocalDOMWindow, WeakPtrImplWithEventTargetData>& windowsInterestedInStorageEvents()
+static WeakHashSet<LocalDOMWindow, WeakPtrImplWithEventTargetData>& NODELETE windowsInterestedInStorageEvents()
 {
     static MainThreadNeverDestroyed<WeakHashSet<LocalDOMWindow, WeakPtrImplWithEventTargetData>> set;
     return set;
